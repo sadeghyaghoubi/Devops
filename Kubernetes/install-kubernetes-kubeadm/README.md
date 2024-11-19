@@ -1,4 +1,4 @@
-# install-kubernetes-kubeadm
+# install-kubernetes-kubeadm-->(rocky 8.9 kubernetes 1.31)
 https://upcloud.com/community/tutorials/install-kubernetes-cluster-centos-8/
 
 
