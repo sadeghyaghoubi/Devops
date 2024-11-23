@@ -21,6 +21,15 @@ REVISION  CHANGE-CAUSE
 ```
 ```
 kubectl annotate deployments.apps -n deploy-ns nginx-deployment kubernetes.io/change-cause="nginx:latest"
+
+[root@master1 home]# kubectl rollout history -n deploy-ns deployment nginx-deployment
+deployment.apps/nginx-deployment
+REVISION  CHANGE-CAUSE
+1         <none>
+4         <none>
+5         nginx:latest
+
+
 ```
 ```
 kubectl rollout undo deployment -n deploy-ns nginx-deployment --to-revision=2
