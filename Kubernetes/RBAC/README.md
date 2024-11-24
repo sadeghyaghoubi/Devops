@@ -1,3 +1,10 @@
+
+
+
+![Uploading photo_5915608699488027436_y.jpg…]()
+
+
+
 ```
 
 ########################################Kubeclient :
@@ -101,3 +108,7 @@ comment #export KUBECONFIG=/etc/kubernetes/admin.conf in bashrc
 
 
 ```
+
+
+
+
