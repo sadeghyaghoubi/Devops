@@ -38,4 +38,16 @@ spec:
 #kubectl  exec  -it myboot-demo -- /bin/bash
 # curl  localhost:8080/appendgreetingfil
 ```
+به‌طور پیش‌فرض، emptyDir داده‌ها را روی دیسک نود (Node) ذخیره می‌کند. این دیسک معمولاً همان ذخیره‌ساز محلی ماشین (Host) است.
+```
+/var/lib/kubelet/pods/<pod-uid>/volumes/kubernetes.io~empty-dir/<volume-name>
+```
 
+اگر بخواهید داده‌های emptyDir به جای دیسک روی RAM ذخیره شوند (برای افزایش سرعت)، می‌توانید از گزینه‌ی medium: "Memory" استفاده کنید.
+
+```
+volumes:
+  - name: shared-storage
+    emptyDir:
+      medium: "Memory"  # داده‌ها روی RAM ذخیره می‌شوند
+```
