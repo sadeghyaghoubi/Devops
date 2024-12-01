@@ -14,6 +14,8 @@ This guide explains how to connect an Ansible server to machines using SSH priva
 3. Copy the public key to the Ansible server:
    - If you generated the SSH key pair on the Ansible server, the public key is usually located in the same directory as the private key. It is typically named id_rsa.pub.
    - Please copy the content inside the id_rsa.pub file on the server and paste it into the authorized_keys file on the destination machine.
+   OR
+   - ssh-copy-id root@destinationip
      
 4. Log in to the destination machine through the ansible server :
    - Use your preferred method to log in to the destination machine using SSH. You can use the command ssh username@destination_ip .
