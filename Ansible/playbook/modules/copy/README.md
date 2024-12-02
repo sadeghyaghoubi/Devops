@@ -6,4 +6,5 @@
       copy:
         src: /home/user/index.html
         dest: /var/www/html/index.html
+        force: yes
 ```
