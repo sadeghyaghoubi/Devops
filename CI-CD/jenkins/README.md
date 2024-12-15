@@ -17,7 +17,7 @@ service jenkins restart
 ```
 visudo
 
-%jenkins All=(ALL) NOPASSWD: ALL
+%jenkins ALL=(ALL:ALL) NOPASSWD: ALL
 ```
 
 ```
