@@ -10,7 +10,9 @@ usermod -s /bin/bash jenkins
 
 passwd jenkins
 
-usermod -aG sudo jenkins
+usermod -a -G root jenkins
+
+service jenkins restart
 ```
 ```
 visudo
