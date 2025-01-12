@@ -56,6 +56,9 @@ $kubectl apply -f deployment/nginx-ingress.yaml
 #How to access NGINX Ingress Controller (create service)
 
 #Option 1: Create a NodePort service
+
+نکته مهم اینه که اگر پورت ندیم بصورت رندوم میذاره و حتما باید یک پورتی براش تعریف بشه
+پس بهتره قبلش edit کنیم و بعد apply کنیم
 $kubectl create -f service/nodeport.yaml
 
 
