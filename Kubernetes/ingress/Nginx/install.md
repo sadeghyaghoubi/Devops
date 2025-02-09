@@ -71,7 +71,7 @@ apply cafee and tea yamls :
 kubectl apply -f examples/ingress-resources/complete-example/*
 
 #worker address : 192.168.59.34
-$ubectl get svc -n nginx-ingress
+$kubectl get svc -n nginx-ingress
 NAME            TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
 nginx-ingress   NodePort   10.108.220.56   <none>        80:31987/TCP,443:31093/TCP   131m
 
