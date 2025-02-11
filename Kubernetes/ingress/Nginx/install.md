@@ -75,6 +75,10 @@ $kubectl get svc -n nginx-ingress
 NAME            TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
 nginx-ingress   NodePort   10.108.220.56   <none>        80:31987/TCP,443:31093/TCP   131m
 
+
+$openssl req -x509 -nodes -days 365 -newkey rsa:2048   -keyout cafe.key -out cafe.crt   -subj "/CN=cafe.example.com/O=cafe"
+
+
 #set dns windows system : 
 192.168.59.34 cafe.example.com
 
@@ -94,12 +98,6 @@ Server name: tea-7dfb4bdfc8-gxhtz
 Date: 11/Jan/2025:14:16:11 +0000
 URI: /tea
 Request ID: d793e48c3b651a835ce5b6b47311e954
-
-
-
-
-
-
 
 ---------------------------
 ```
