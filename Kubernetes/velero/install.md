@@ -19,6 +19,8 @@ cd velero-v1.15.2-linux-amd64/
 mv velero /usr/local/bin/
 velero version
 ```
+minio configuration:
+
 Create a New Bucket and new user and create access from user to bucket (name : velero)
 
 Set Public Policy for the Bucket
