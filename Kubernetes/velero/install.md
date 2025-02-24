@@ -29,7 +29,7 @@ Set the bucket policy to Public (or create a custom policy to allow Velero acces
 
 Save the changes.
 
-##########
+
 ```
 cat <<EOF > credentials-velero
 [default]
