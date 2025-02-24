@@ -1,13 +1,14 @@
-step1:
-install minio 
+### step1:
+  install minio 
 
 
-step 2:
+### step 2:
+
 ```
 mkdir velero
 cd velero/
 ```
-####install velero-CLI####
+### install velero-CLI
 ```
 wget https://github.com/vmware-tanzu/velero/releases/download/v1.15.2/velero-v1.15.2-linux-amd64.tar.gz
 tar -xvzf velero-v1.15.2-linux-amd64.tar.gz
