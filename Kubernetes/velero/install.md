@@ -84,3 +84,16 @@ velero restore get
 ```
 velero schedule create kube-system-daily --schedule "0 0 * * *" --include-namespaces kube-system
 ```
+
+## for example ( To schedule a Velero backup once per year, you can use the following cron schedule format) : 
+```
+velero schedule create kube-system-yearly --schedule "0 0 1 1 *" --include-namespaces kube-system
+```
+## Check the Scheduled Backup
+```
+velero schedule get
+```
+## Delete the Scheduled Backup (If Needed)
+```
+velero schedule delete kube-system-yearly
+```
