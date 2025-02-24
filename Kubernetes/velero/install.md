@@ -1,6 +1,8 @@
 ### step1:
-  install minio 
-
+  install minio From:
+  ```url
+  https://github.com/sadeghyaghoubi/Devops/blob/main/Kubernetes/minio/install.md
+  ```
 
 ### step 2:
 
