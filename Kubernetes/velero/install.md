@@ -45,3 +45,39 @@ velero install     --provider aws     --plugins velero/velero-plugin-for-aws:v1.
 ```
 kubectl get pod -n velero
 ```
+
+
+## Check the Backup Storage Location
+```
+kubectl get backupstoragelocations -n velero
+```
+
+## Create a Backup of ns:kube-system
+```
+velero backup create kube-system-backup --include-namespaces kube-system --wait
+```
+## Verify the Backup
+```
+velero backup get
+```
+```
+[root@master1 ~]# velero backup get
+NAME                 STATUS      ERRORS   WARNINGS   CREATED                         EXPIRES   STORAGE LOCATION   SELECTOR
+kube-system-backup   Completed   0        0          2025-02-24 02:49:44 -0500 EST   29d       default            <none>
+```
+
+
+## Restore the kube-system Backup (If Needed)
+
+```
+velero restore create --from-backup kube-system-backup
+```
+```
+velero restore get
+```
+
+## Schedule Automatic Backups (Optional)
+
+```
+velero schedule create kube-system-daily --schedule "0 0 * * *" --include-namespaces kube-system
+```
