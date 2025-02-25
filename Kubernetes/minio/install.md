@@ -10,7 +10,7 @@ echo "MINIO_ROOT_PASSWORD=123m123M" | sudo tee -a /etc/minio/minio.env
 echo "MINIO_VOLUMES=\"/mnt/minio\"" | sudo tee -a /etc/minio/minio.env
 chown -R minio-user:minio-user /etc/minio
 
-tee /etc/systemd/system/minio.service <<EOF
+vim /etc/systemd/system/minio.service 
 [Unit]
 Description=MinIO Object Storage
 After=network.target
@@ -18,13 +18,13 @@ After=network.target
 [Service]
 User=minio-user
 Group=minio-user
-ExecStart=/usr/local/bin/minio server --console-address ":9001" /mnt/data
+ExecStart=/usr/local/bin/minio server --config-dir /etc/minio $MINIO_VOLUMES
+EnvironmentFile=-/etc/minio/minio.env
 Restart=always
 LimitNOFILE=65536
 
 [Install]
 WantedBy=multi-user.target
-EOF
 
 systemctl daemon-reload
 systemctl enable --now minio
