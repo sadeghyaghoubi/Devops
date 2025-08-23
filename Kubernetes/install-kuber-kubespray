@@ -1,0 +1,142 @@
+install kubernetes with kubespray on Rocky Linux release 9.6 (Blue Onyx) (Online)
+======================================================================================
+======================================================================================
+install Dependencies on ansible server 
+--------------------------------------
+$sudo dnf install -y python3.12 python3.12-pip sshpass curl tar git
+
+
+
+Install Dependencies on all nodes:
+---------------------------------------
+$sudo dnf install -y python3.12 python3.12-pip
+
+$sudo swapoff -a
+$sudo sed -i '/swap/d' /etc/fstab
+
+$sudo setenforce 0
+$sudo sed -i 's/^SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+
+$systemctl stop firewalld
+$systemctl disable firewalld
+
+# Enable required kernel modules
+$sudo modprobe br_netfilter
+$echo 'br_netfilter' | sudo tee /etc/modules-load.d/k8s.conf
+
+# Set sysctl params
+$cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+$sudo sysctl --system
+
+
+
+
+On your ansible-server:
+-------------------------
+$git clone https://github.com/kubernetes-sigs/kubespray.git
+
+#It is recommended to deploy the ansible version used by kubespray into a python virtual environment.
+VENVDIR=kubespray-venv
+KUBESPRAYDIR=kubespray
+python3 -m venv $VENVDIR
+source $VENVDIR/bin/activate
+cd $KUBESPRAYDIR
+$python3.12 -m pip install -r requirements.txt
+
+$cp -rfp inventory/sample inventory/mycluster
+####Edit inventory/mycluster/hosts.yaml and adjust roles:
+
+####Example:
+
+all:
+  hosts:
+    controller:
+      ansible_host: 167.235.49.54
+      ip: 167.235.49.54
+      access_ip: 167.235.49.54
+    node1:
+      ansible_host: 159.69.35.153
+      ip: 159.69.35.153
+      access_ip: 159.69.35.153
+    node2:
+      ansible_host: 167.235.73.16
+      ip: 167.235.73.16
+      access_ip: 167.235.73.16
+  children:
+    kube_control_plane:
+      hosts:
+        controller:
+    kube_node:
+      hosts:
+        controller:
+        node1:
+        node2:
+    etcd:
+      hosts:
+        controller:
+        node1:
+        node2:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
+
+
+$ssh-keygen
+$ssh-copy-id root@controller
+$ssh-copy-id root@node1
+$ssh-copy-id root@node2
+
+
+###Run Kubespray
+$ansible-playbook -i inventory/mycluster/hosts.yaml cluster.yml -b -v
+
+###installation output: 
+PLAY RECAP ****************************************************************************************************************************************************************************************************
+node1                      : ok=615  changed=33   unreachable=0    failed=0    skipped=989  rescued=0    ignored=4
+node2                      : ok=464  changed=15   unreachable=0    failed=0    skipped=643  rescued=0    ignored=1
+node3                      : ok=464  changed=15   unreachable=0    failed=0    skipped=643  rescued=0    ignored=1
+
+Monday 11 August 2025  05:29:53 -0400 (0:00:00.324)       0:42:00.673 *********
+===============================================================================
+network_plugin/calico : Wait for calico kubeconfig to be created ------------------------------------------------------------------------------------------------------------------------------------- 257.02s
+network_plugin/cni : CNI | Copy cni plugins ---------------------------------------------------------------------------------------------------------------------------------------------------------- 231.18s
+system_packages : Manage packages -------------------------------------------------------------------------------------------------------------------------------------------------------------------- 142.58s
+network_plugin/calico : Calico | Copy calicoctl binary from download dir ----------------------------------------------------------------------------------------------------------------------------- 100.25s
+kubernetes/node : Install | Copy kubelet binary from download dir ------------------------------------------------------------------------------------------------------------------------------------- 77.66s
+download : Download_file | Download item -------------------------------------------------------------------------------------------------------------------------------------------------------------- 65.68s
+container-engine/containerd : Containerd | Unpack containerd archive ---------------------------------------------------------------------------------------------------------------------------------- 64.19s
+download : Download_file | Download item -------------------------------------------------------------------------------------------------------------------------------------------------------------- 55.73s
+download : Download_file | Download item -------------------------------------------------------------------------------------------------------------------------------------------------------------- 52.92s
+container-engine/crictl : Extract_file | Unpacking archive -------------------------------------------------------------------------------------------------------------------------------------------- 48.97s
+network_plugin/calico : Calico | Create Calico Kubernetes datastore resources ------------------------------------------------------------------------------------------------------------------------- 45.50s
+download : Download_file | Download item -------------------------------------------------------------------------------------------------------------------------------------------------------------- 45.39s
+kubernetes/node : Install | Copy kubeadm binary from download dir ------------------------------------------------------------------------------------------------------------------------------------- 41.92s
+container-engine/containerd : Download_file | Download item ------------------------------------------------------------------------------------------------------------------------------------------- 39.07s
+etcd : Get currently-deployed etcd version ------------------------------------------------------------------------------------------------------------------------------------------------------------ 30.02s
+network_plugin/calico : Calico | Create ipamconfig resources ------------------------------------------------------------------------------------------------------------------------------------------ 28.72s
+etcdctl_etcdutl : Copy etcdctl and etcdutl binary from download dir ----------------------------------------------------------------------------------------------------------------------------------- 28.30s
+download : Download_file | Download item -------------------------------------------------------------------------------------------------------------------------------------------------------------- 27.47s
+etcd : Gen_certs | Write etcd member/admin and kube_control_plane client certs to other etcd nodes ---------------------------------------------------------------------------------------------------- 23.36s
+container-engine/crictl : Copy crictl binary from download dir ---------------------------------------------------------------------------------------------------------------------------------------- 23.27s
+
+
+####on controller node : 
+[root@node1 ~]# kubectl get node
+NAME    STATUS   ROLES           AGE    VERSION
+node1   Ready    control-plane   113m   v1.33.3
+node2   Ready    <none>          110m   v1.33.3
+node3   Ready    <none>          110m   v1.33.3
+
+
+
+
+******Optional: Remove Cluster******
+ansible-playbook -i inventory/mycluster/hosts.yaml reset.yml -b
+
