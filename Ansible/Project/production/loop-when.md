@@ -60,3 +60,20 @@ playbook.yml
 ansible-playbook -i inventory playbook.yml
 ```
 
+
+اگر پکیج‌ها در چند جا تکرار می‌شن، بهتره اون لیست رو در group_vars یا defaults قرار بدی، مثلاً:
+
+
+roles/base_packages/defaults/main.yml:
+```
+common_packages:
+  - curl
+  - git
+  - htop
+```
+
+task:
+```
+loop: "{{ common_packages }}"
+```
+
