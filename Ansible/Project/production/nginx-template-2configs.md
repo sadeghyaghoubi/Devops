@@ -20,6 +20,15 @@ ansible-project/
             └── main.yml
 ```
 
+ansible.cfg:
+```
+[defaults]
+inventory = inventory/hosts.ini
+roles_path = roles
+host_key_checking = False
+```
+
+
 inventory:
 ```
 [web_servers]
