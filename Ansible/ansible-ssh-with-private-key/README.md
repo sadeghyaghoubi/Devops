@@ -25,8 +25,12 @@ By following these steps, you should be able to connect to machines from your An
 
 
 ANSIBLE SERVER:
+
 ssh-keygen
+
 chmod 600 ~/.ssh/id_rsa
+
 ssh-copy-id root@DST IP
+
 ssh root@DST IP
 
