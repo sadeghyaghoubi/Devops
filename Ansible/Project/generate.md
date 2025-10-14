@@ -57,6 +57,10 @@ playbooks/site.yml:
 
 roles/nginx/tasks/main.yml
 ```
+- name: Make sure directory exists
+  file:
+    path: /usr/share/nginx/html/
+    state: directory
 - name: Install nginx
   apt:
     name: nginx
@@ -78,7 +82,7 @@ roles/nginx/tasks/main.yml
 
 - name: Create simple index.html
   copy:
-    dest: /var/www/html/index.html
+    dest: /usr/share/nginx/html/index.html
     content: |
       <h1>Hello from {{ inventory_hostname }}</h1>
 ```
