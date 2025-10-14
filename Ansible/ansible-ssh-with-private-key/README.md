@@ -22,3 +22,11 @@ This guide explains how to connect an Ansible server to machines using SSH priva
    - If the connection is successful, you should see a "SUCCESS" message.
 
 By following these steps, you should be able to connect to machines from your Ansible server using an SSH private key.
+
+
+ANSIBLE SERVER:
+ssh-keygen
+chmod 600 ~/.ssh/id_rsa
+ssh-copy-id root@DST IP
+ssh root@DST IP
+
