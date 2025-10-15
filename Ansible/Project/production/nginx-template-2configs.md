@@ -20,6 +20,12 @@ ansible-project/
             └── main.yml
 ```
 
+```
+mkdir -p inventory playbooks roles/nginx/tasks group_vars/ roles/nginx/templates roles/nginx/handlers
+touch ansible.cfg inventory/hosts.ini playbooks/site.yml roles/nginx/tasks/main.yml roles/nginx/templates/nginx.conf.j2 roles/nginx/handlers/main.yml group_vars/web_servers.yml group_vars/dev_
+```
+
+
 ansible.cfg:
 ```
 [defaults]
