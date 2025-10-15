@@ -30,3 +30,15 @@ host_vars/web1.yml :
 ```
 service_port: 9090
 ```
+
+
+
+```
+TASK [Show summary] ************************************************************
+ok: [web1] => {
+    "msg": "Installed nginx on web1 with port 9090"
+}
+ok: [web2] => {
+    "msg": "Installed nginx on web2 with port 8080"
+}
+```
