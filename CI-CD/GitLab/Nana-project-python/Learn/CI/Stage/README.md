@@ -1,3 +1,4 @@
+vim .gitlab-ci.yml
 ```
 stages:
   - build
