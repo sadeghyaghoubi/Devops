@@ -1,3 +1,4 @@
+```
 stages:
   - build
   - test
@@ -20,3 +21,4 @@ deploy-job:
   script:
     - echo "Deploying application..."
     - echo "Copying files to server..."
+```
