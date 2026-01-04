@@ -85,5 +85,17 @@ sudo systemctl restart docker
 
 ---
 
+
+## vi /etc/docker/daemon.json
+```
+{
+  "insecure-registries": [
+    "192.168.150.93:5002",
+    "192.168.150.93:5003"
+  ]
+}
+
+```
+
 ## ✅ Done
 Docker is now installed and ready on Rocky Linux 9.7.
