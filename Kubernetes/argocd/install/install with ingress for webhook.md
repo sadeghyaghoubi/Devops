@@ -48,7 +48,9 @@ nginx-ingress   NodePort   10.108.220.56   <none>        80:31987/TCP,443:31093/
 ***************
 
 kubectl edit svc -n argo argocd-server
-```
+
+
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -95,7 +97,7 @@ spec:
   type: NodePort
 status:
   loadBalancer: {}
-```
+
 
 URL : https://argocd.shahkar.co:31093/api/webhook
 #trigger Mark all
